@@ -15,4 +15,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   readonly password: string;
+
+  @ApiProperty()
+  readonly typeUser: number;
 }
