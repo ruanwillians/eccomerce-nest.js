@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import { AddressEntity } from 'src/address/entities/address.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  OneToMany,
+} from 'typeorm';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -20,11 +27,14 @@ export class UserEntity {
   @Column({ name: 'password', nullable: false })
   password: string;
 
-  @Column({ name: 'type_user', nullable: false })
-  typeUser: number;
+  @Column({ name: 'typeuser', nullable: false })
+  typeuser: number;
+
+  @OneToMany(() => AddressEntity, (address) => address.user)
+  addresses?: AddressEntity[];
 
   @Column({
-    name: 'created_at',
+    name: 'createdat',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     nullable: false,
