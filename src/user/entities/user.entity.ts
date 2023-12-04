@@ -24,7 +24,7 @@ export class UserEntity {
   @Column({ name: 'document', nullable: false })
   document: string;
 
-  @Column({ name: 'password', nullable: false })
+  @Column({ name: 'password', nullable: false, select: false })
   password: string;
 
   @Column({ name: 'typeuser', nullable: false })
