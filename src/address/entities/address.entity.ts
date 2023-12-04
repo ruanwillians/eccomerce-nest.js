@@ -15,8 +15,8 @@ export class AddressEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'user_id', nullable: false })
-  user_id: UUID;
+  @Column({ name: 'userid', nullable: false })
+  userid: UUID;
 
   @Column({ name: 'city', nullable: false })
   city: string;
@@ -37,7 +37,7 @@ export class AddressEntity {
   complement: string;
 
   @Column({
-    name: 'created_at',
+    name: 'createdat',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     nullable: false,
@@ -45,18 +45,18 @@ export class AddressEntity {
   createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'updated_at',
+    name: 'updatedat',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
-    nullable: false,
+    nullable: true,
   })
   updated_at: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.addresses)
+  @JoinColumn({ name: 'userid', referencedColumnName: 'id' })
   user?: UserEntity;
 
   @BeforeInsert()
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   updateTimestamp() {
     this.createdAt = new Date();
   }

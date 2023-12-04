@@ -12,8 +12,6 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  private users: UserEntity[] = [];
-
   async createUser(createUser: CreateUserDto): Promise<UserEntity> {
     const passwordInstance = new Password(createUser.password);
     const password = await passwordInstance.getPassword();
