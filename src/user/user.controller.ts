@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
+import { UUID } from 'crypto';
 
 @Controller('user')
 export class UserController {
@@ -13,7 +14,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async getUserById(@Param('id') userId: string): Promise<UserEntity[]> {
+  async getUserById(@Param('id') userId: UUID): Promise<UserEntity> {
     return this.userService.getUserById(userId);
   }
 

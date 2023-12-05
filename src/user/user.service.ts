@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
 import { CacheService } from 'src/cache/cache.service';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class UserService {
@@ -19,14 +20,22 @@ export class UserService {
     return users;
   }
 
-  async getUserById(userId: string): Promise<UserEntity[]> {
-    return this.cacheService.getCache<UserEntity[]>(`user_${userId}`, () =>
-      this.userRepository.find({
-        where: {
-          id: userId,
-        },
-      }),
+  async getUserById(userId: UUID): Promise<UserEntity> {
+    const user = await this.cacheService.getCache<UserEntity>(
+      `user_${userId}`,
+      () =>
+        this.userRepository.findOne({
+          where: {
+            id: userId,
+          },
+        }),
     );
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async createUser(createUser: CreateUserDto): Promise<UserEntity> {
