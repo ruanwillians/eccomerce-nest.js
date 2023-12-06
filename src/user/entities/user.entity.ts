@@ -15,7 +15,7 @@ export class UserEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'email', nullable: false })
+  @Column({ name: 'email', nullable: false, unique: true })
   email: string;
 
   @Column({ name: 'phone', nullable: false })
@@ -24,7 +24,7 @@ export class UserEntity {
   @Column({ name: 'document', nullable: false })
   document: string;
 
-  @Column({ name: 'password', nullable: false, select: false })
+  @Column({ name: 'password', nullable: false })
   password: string;
 
   @Column({ name: 'typeuser', nullable: false })

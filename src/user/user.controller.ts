@@ -9,7 +9,12 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async getAllUsers(): Promise<UserEntity[]> {
+  async getAllUsers(
+    @Param('email') email: string,
+  ): Promise<UserEntity[] | UserEntity> {
+    if (email) {
+      return this.userService.getUserByEmail(email);
+    }
     return this.userService.getAllUsers();
   }
 
