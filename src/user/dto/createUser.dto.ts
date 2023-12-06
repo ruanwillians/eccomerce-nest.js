@@ -14,7 +14,7 @@ export class CreateUserDto {
   readonly document: string;
 
   @ApiProperty()
-  readonly password: string;
+  readonly password: string = null;
 
   @ApiProperty()
   readonly typeuser: number;

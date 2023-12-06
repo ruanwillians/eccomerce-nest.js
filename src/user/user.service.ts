@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,6 +22,24 @@ export class UserService {
   async getAllUsers(): Promise<UserEntity[]> {
     const users = await this.userRepository.find();
     return users;
+  }
+
+  async getUserByEmail(email: string): Promise<UserEntity> {
+    const user = await this.cacheService.getCache<UserEntity>(
+      `user_${email}`,
+      () =>
+        this.userRepository.findOne({
+          where: {
+            email,
+          },
+        }),
+    );
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async getUserById(userId: UUID): Promise<UserEntity> {
@@ -41,6 +63,11 @@ export class UserService {
   async createUser(createUser: CreateUserDto): Promise<UserEntity> {
     const saltOrRounds: number = 10;
     const password = await hash(createUser.password, saltOrRounds);
+    const user = this.getUserByEmail(createUser.email);
+
+    if (user) {
+      throw new ConflictException('Email already exist');
+    }
     return this.userRepository.save({
       ...createUser,
       password,

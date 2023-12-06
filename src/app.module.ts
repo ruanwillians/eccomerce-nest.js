@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AddressModule } from './address/address.module';
 import { CacheModule } from './cache/cache.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -23,8 +25,10 @@ import { CacheModule } from './cache/cache.module';
       migrationsRun: true,
     }),
     UserModule,
+    JwtModule,
     AddressModule,
     CacheModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
