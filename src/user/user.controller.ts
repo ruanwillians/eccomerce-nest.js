@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
@@ -12,8 +20,9 @@ export class UserController {
   @Get()
   @UseGuards(AuthGuard)
   async getAllUsers(
-    @Param('email') email: string,
+    @Query('email') email?: string,
   ): Promise<UserEntity[] | UserEntity> {
+    console.log(email);
     if (email) {
       return this.userService.getUserByEmail(email);
     }
