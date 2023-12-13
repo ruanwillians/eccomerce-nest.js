@@ -6,6 +6,7 @@ import { AddressModule } from './address/address.module';
 import { CacheModule } from './cache/cache.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { JwtModule } from '@nestjs/jwt';
     AddressModule,
     CacheModule,
     AuthModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],

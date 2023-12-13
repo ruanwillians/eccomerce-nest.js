@@ -35,10 +35,6 @@ export class UserService {
         }),
     );
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     return user;
   }
 
@@ -63,7 +59,7 @@ export class UserService {
   async createUser(createUser: CreateUserDto): Promise<UserEntity> {
     const saltOrRounds: number = 10;
     const password = await hash(createUser.password, saltOrRounds);
-    const user = this.getUserByEmail(createUser.email);
+    const user = await this.getUserByEmail(createUser.email);
 
     if (user) {
       throw new ConflictException('Email already exist');
