@@ -7,6 +7,7 @@ import { CacheModule } from './cache/cache.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CategoryModule } from './category/category.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CategoryModule } from './category/category.module';
     CacheModule,
     AuthModule,
     CategoryModule,
+    ProductModule,
   ],
   controllers: [],
   providers: [],
